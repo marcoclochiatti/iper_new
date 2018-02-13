@@ -143,7 +143,7 @@ abstract class Configurable
             return;
 //        $class_path = self::queryConfiguration('smarty', 'class_path');
         $class_path = 'www/include/thirdparty/smarty/libs/Smarty.class.php';
-        $template_dir = 
+        $template_dir = '';
         include_once $class_path;
         self::$templates = new Smarty();
         self::$templates->setTemplateDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_templates']);
