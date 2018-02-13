@@ -1,6 +1,6 @@
 <?php
 
-require_once 'iper/config/Configurable.php';
+require_once 'www/config/Configurable.php';
 
 /**
 *   class DummyConfigurable
