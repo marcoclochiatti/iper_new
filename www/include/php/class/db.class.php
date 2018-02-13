@@ -118,11 +118,15 @@ Class Database{
             $vals[] = 'NOW()';
             $vals[] = $user;
             
+                    
+                    
+                    
             $sql = "INSERT INTO ".$tableName." (" .implode(',',$columns) .") VALUES ('" ;
             $to_add = array();
             foreach($vals as $val){
                $to_add[] = '?';
             }
+            
             $sql .= implode(', ', $to_add) .")";   
             $statemant = $this->_dbh->prepare($sql); 
             $statemant->execute($vals);
@@ -145,6 +149,7 @@ Class Database{
             }
             $tmp[] = "update_date=NOW()";
             $sql .= implode(', ', $tmp);
+            
             $sql .= " WHERE";
             $tmp = array();
             for($i=1; $i<=count($column); $i++){
