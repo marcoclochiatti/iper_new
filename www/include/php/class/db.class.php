@@ -96,7 +96,11 @@ Class Database{
         }
     }
     
-    public function insertInto($tableName,$values) {
+    
+    
+    
+    
+    public function insertInto($tableName,$values, $user) {
         $i = NULL;
         try{
             $columns = array();
@@ -105,6 +109,14 @@ Class Database{
                 $columns[] = $key;
                 $vals[] = $val;
             }
+            $columns[] = 'creation_date';
+            $columns[] = 'update_date';
+            if($tablename!='users_table'){
+                $columns[] = 'users';
+            }
+            $vals[] = 'NOW()';
+            $vals[] = 'NOW()';
+            $vals[] = $user;
             
             $sql = "INSERT INTO ".$tableName." (" .implode(',',$columns) .") VALUES ('" ;
             $to_add = array();
@@ -121,13 +133,17 @@ Class Database{
         }        
     }
     
-    public function updateTable($tablename, $setcolumn, $setoperator, $setvalue, $operator, $value, $column){
+    public function updateTable($tablename, $setcolumn, $setoperator, $setvalue, $operator, $value, $column, $user){
         try{
             $sql = "UPDATE " .$tablename ." SET ";
             $tmp = array();
             for($i=1; $i<=count($setcolumn); $i++){
                 $tmp[] = $setcolumn[i] ." " .$setoperator[i] ." '" .$setvalue[i] ."'";
+            } 
+            if($tablename!='users_table'){
+                $tmp[] = "users='" .$user ."'";
             }
+            $tmp[] = "update_date=NOW()";
             $sql .= implode(', ', $tmp);
             $sql .= " WHERE";
             $tmp = array();
@@ -152,9 +168,9 @@ Class Database{
                 $result[] = $row;
             }
         } catch (PDOException $ex) {
-            echo $e->getMessage();
-            return $result;
+            echo $e->getMessage();           
         }
+         return $result;
     }
     
     public function freeRun($sql){
@@ -166,5 +182,19 @@ Class Database{
             return $result;
         }                
     }
+    
+    public function ApiGetPath($path_name){
+        $sql = "SELECT path FROM path_table WHERE path_name='" .$path_name ."'";
+        $result = $this->selectFreeRun($sql);
+        return $result;
+    }
 
+    public function ApiGetAllPath(){
+        $sql = "SELECT path_name,path FROM path_table";
+        $result = $this->selectFreeRun($sql);
+        return $result;
+    }
+            
+    
 }
+
