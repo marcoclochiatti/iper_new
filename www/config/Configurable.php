@@ -136,5 +136,20 @@ abstract class Configurable
         
         throw new ConfigException("Property ".$key." not defined");
     }
+    
+    public static function templateClass()
+    {
+        if(!is_null(self::$templates))
+            return;
+//        $class_path = self::queryConfiguration('smarty', 'class_path');
+        $class_path = 'www/include/thirdparty/smarty/libs/Smarty.class.php';
+        $template_dir = 
+        include_once $class_path;
+        self::$templates = new Smarty();
+        self::$templates->setTemplateDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_templates']);
+        self::$templates->setCompileDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_templates_c']);
+        self::$templates->setConfigDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_configs']);
+        self::$templates->setCacheDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_cache']);
+    }
 }
 
