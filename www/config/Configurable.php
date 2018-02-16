@@ -43,6 +43,7 @@ abstract class Configurable
         
         $this->loadConfiguration();
         $this->cacheConfig();
+        $this->templateClass();
     }
     
     /**
@@ -137,19 +138,32 @@ abstract class Configurable
         throw new ConfigException("Property ".$key." not defined");
     }
     
-    public static function templateClass()
+    private static function templateClass()
     {
         if(!is_null(self::$templates))
             return;
 //        $class_path = self::queryConfiguration('smarty', 'class_path');
         $class_path = 'www/include/thirdparty/smarty/libs/Smarty.class.php';
-        $template_dir = '';
         include_once $class_path;
         self::$templates = new Smarty();
-        self::$templates->setTemplateDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_templates']);
-        self::$templates->setCompileDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_templates_c']);
-        self::$templates->setConfigDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_configs']);
-        self::$templates->setCacheDir($_SESSION['ROOT_URL'] .$_SESSION['smarty_cache']);
+        self::$templates->setTemplateDir('www/smarty/templates');
+        self::$templates->setCompileDir('www/smarty/templates_c');
+        self::$templates->setConfigDir('www/smarty/configs');
+        self::$templates->setCacheDir('www/smarty/caches');        
+    }
+    
+    public static function assignToSmarty($variable, $value){
+        self::$templates->assign($variable,$value);        
+    }
+    
+    public static function clear_assign(){
+        self::$templates->clear_all_assign();        
+    }
+    
+    public static function assignToSmartyList($list_of_var_and_value){
+        foreach($list_of_var_and_value as $var_and_value){
+            self::assignToSmarty($var_and_value[0], $var_and_value[1]);
+        }        
     }
 }
 
