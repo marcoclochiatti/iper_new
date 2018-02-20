@@ -1,3 +1,25 @@
+<?php
+/* Smarty version 3.1.30, created on 2018-02-19 16:13:31
+  from "C:\xampp\htdocs\iper\www\smarty\templates\index.tpl" */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.30',
+  'unifunc' => 'content_5a8ae99be78c65_28419642',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'd98fbea689aaa6454760761186a0bb0819b41303' => 
+    array (
+      0 => 'C:\\xampp\\htdocs\\iper\\www\\smarty\\templates\\index.tpl',
+      1 => 1519049526,
+      2 => 'file',
+    ),
+  ),
+  'cache_lifetime' => 3600,
+),true)) {
+function content_5a8ae99be78c65_28419642 (Smarty_Internal_Template $_smarty_tpl) {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +46,6 @@
     <link rel="apple-touch-icon" href="images/ico/apple-touch-icon-57x57.png">
     
     <script type="text/javascript">
-    {literal}
     jQuery(document).ready(function($){
 	'use strict';
       	jQuery('body').backstretch(
@@ -50,8 +71,8 @@
          	longitude: -73.9863,
           	zoom: 14 });
     });
-    {/literal}
-    </script>    
+    </script>
+    
 </head><!--/head-->
 <body>
 <div id="preloader"></div>
@@ -1074,3 +1095,5 @@
     <script src="www/include/js/init.js"></script>
 </body>
 </html>
+<?php }
+}
