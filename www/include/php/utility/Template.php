@@ -5,6 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+ 
+ /* mio commento ste */
 
 include_once 'www/include/thirdparty/smarty/libs/Smarty.class.php';
 include_once 'www/config/Configurable.php';
