@@ -28,3 +28,21 @@ class Model extends ModelEngine
         return $result;
     }
 }
+
+
+class ModelM extends ModelEngineMem{
+    private function build_key($language,$key){
+        return $language .'_' .$key;
+    }
+    
+    public function setDictionaryByLang($language,$key,$value){
+        $new_key = $this->build_key($language, $key);
+        $result = ModelEngineMem::setValue($new_key, $value);        
+    }
+    
+    public function getDictionaryByLang($language,$key){
+        $new_key = $this->build_key($language, $key);
+        $result = ModelEngineMem::getValue($new_key, $value);
+    }
+}
+

@@ -4,7 +4,8 @@ if (session_status() != PHP_SESSION_DISABLED){
         include_once 'boostrap.php';
         include_once 'www/include/php/utility/Template.php';
         include_once 'www/include/php/utility/Dictionary.php';
-        $smarty = TemplateEngine::getInstance();                
+        $smarty = TemplateEngine::getInstance();   
+        $smarty->assign('DIC', Dictionary::filldictionary());
         $t =  $smarty->display('index.tpl');
     }else{
         

@@ -25,7 +25,7 @@ class ModelEngine extends Configurable
         }       
     }   
     
-    private static function queryConfiguration($sql,$value){
+    public static function queryConfiguration($sql,$value){
         $result = array();
         if($this->connection_status){
             try{      
