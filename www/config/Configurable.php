@@ -21,7 +21,6 @@ abstract class Configurable
     public $config;
     private $sections;
     private static $configuration = null;
-    private static $templates = null;
     
     /**
     *   __construct()
@@ -44,7 +43,6 @@ abstract class Configurable
         
         $this->loadConfiguration();
         $this->cacheConfig();
-        $this->templateClass();
     }
     
     /**

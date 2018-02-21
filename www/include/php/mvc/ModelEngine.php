@@ -8,7 +8,7 @@
 include_once 'www/config/Configurable.php';
 require_once "www/include/thirdparty/predis/autoload.php";
 
-class ModelEngine extends Configurable
+class ModelEngineBase extends Configurable
 {
     private static $instance = null;
     public $connection_status = FALSE;
@@ -16,25 +16,49 @@ class ModelEngine extends Configurable
         $dbname = Configurable::queryConfiguration('db','dbname');
         $dbusr = Configurable::queryConfiguration('db','db_usr');
         $dbpass = Configurable::queryConfiguration('db','db_pass');
-        $dbserver = Configurable::queryConfiguration('db','db_server');
+        $dbhost = Configurable::queryConfiguration('db','db_server');
+        $dbport = Configurable::queryConfiguration('db','db_port');
         try {
-            $this->_connection  = new \PDO("mysql:host=$dbserver;dbname=$dbname", $dbusr, $dbpass);
+            $this->_connection  = new \PDO("mysql:host=".$dbhost .";port=" .$dbport .";dbname=".$dbname , $dbusr, $dbpass);            
+            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection_status = TRUE;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }       
     }   
     
-    public static function queryConfiguration($sql,$value){
+    
+    public static function getInstance(){
+        if(self::$instance == null){   
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }      
+        return self::$instance;
+    }
+}
+    
+    
+class ModelEngine extends ModelEngineBase{
+    
+    public function __construct(){
+        $this->_connection = ModelEngineBase::getInstance();
+        
+    }
+
+    private  function Select($sql,$value){
         $result = array();
-        if($this->connection_status){
+        if($this->_connection->connection_status){
             try{      
-                $sql_obj = $this->_connection->prepare($sql);
-                $sql_obj->execute($values);
+                $sql_obj = $this->_connection->_connection->prepare($sql);
+                if($value)
+                    $sql_obj->execute($value);
+                else
+                    $sql_obj->execute();
                 $result = $sql_obj->fetchAll();                               
             }
             catch (PDOException $ex) {
-                echo $e->getMessage();                
+                $r = $ex->getMessage();                
+                echo $ex->getMessage();                
             }       
         }
         return $result;
@@ -70,7 +94,7 @@ class ModelEngine extends Configurable
             }
             
             $sql .= implode(', ', $to_add) .")";   
-            $statemant = $this->_connection->prepare($sql); 
+            $statemant = $this->_connection->_connection->prepare($sql); 
             $statemant->execute($vals);
             return TRUE;
         } catch (PDOException $ex) {
@@ -98,7 +122,7 @@ class ModelEngine extends Configurable
                 $tmp[] = $column[i] ." " .$operator[i] ." ?";
             }
             $sql .= implode('AND ', $tmp);
-            $statemant = $this->_connection->prepare($sql); 
+            $statemant = $this->_connection->_connection->prepare($sql); 
             $statemant->execute($value);
             return TRUE;
         } catch (PDOException $ex) {
@@ -106,39 +130,21 @@ class ModelEngine extends Configurable
             return FALSE;
         } 
     }
+  
     
-    
-    
-   /**
-   * Il metodo statico che si occupa di restituire l’istanza univoca della classe.
-   * per facilitare il riutilizzo del codice in altre situazioni, si frutta la
-   * costante __CLASS__ che viene valutata automaticamente dall’interprete con il
-   * nome della classe corrente (ricordo che “new $variabile” crea un’istanza della classe
-   * il cui nome è specificato come stringa all’interno di $variabile)
-   */
-    public static function getInstance(){
-        if(self::$instance == null){   
-            $c = __CLASS__;
-            self::$instance = new $c;
-        }      
-        return self::$instance;
-    }
-   
-    
-    public static function querySelect($sql, $values){        
-        $result = $this->queryConfiguration($sql,$values);
+    public  function querySelect($sql, $values){        
+        $result = $this->Select($sql,$values);
         return $result;                
     }
      
-    public static function queryInsert($tablename, $array_columns_and_values,$user){
+    public  function queryInsert($tablename, $array_columns_and_values,$user){
         return $this->insertInto($tablename, $array_columns_and_values, $user);
     }
        
-    public static function queryUpdate($tablename, $setcolumn, $setoperator, $setvalue, $operator, $value, $column, $user){
+    public  function queryUpdate($tablename, $setcolumn, $setoperator, $setvalue, $operator, $value, $column, $user){
         return $this->updateTable($tablename, $setcolumn, $setoperator, $setvalue, $operator, $value, $column, $user);
     }
-    
-                                            
+                                               
 }
 
 
@@ -159,9 +165,10 @@ class ModelEngineMem extends Configurable
         }
         try {
             $this->redis = new Predis\Client($redis_array);
-            $connection_status=TRUE;
+            $this->connection_status=TRUE;
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->connection_status=FALSE;
+//            echo $e->getMessage();
         }       
     }   
    /**
@@ -171,23 +178,34 @@ class ModelEngineMem extends Configurable
    * nome della classe corrente (ricordo che “new $variabile” crea un’istanza della classe
    * il cui nome è specificato come stringa all’interno di $variabile)
    */
-   public static function getInstance()
-   {
-      if(self::$instance == null)
-      {   
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
+    public static function getInstance(){
+        if(self::$instance == null){   
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
       
-      return self::$instance;
-   }
+        return self::$instance;
+    }
    
-   public static function getValue($keyname){
-       return $this->redis->get($keyname);              
-   }
+    public function getValue($keyname){
+        $c = ModelEngineMem::getInstance();
+        if ($c->connection_status){
+            $result = $c->redis->get($keyname);              
+        }else{
+            $result = NULL;
+        }
+        return $result;
+    }
    
-   public static function setValue($keyname,$value){
-       return $this->redis->set($keyname,$value);              
+    public function setValue($keyname,$value){
+        $c = ModelEngineMem::getInstance();
+        if ($c->connection_status){
+            $$c->redis->set($keyname,$value);              
+            $result = TRUE;
+        }else{
+            $result = FALSE;
+        }
+        return $result;
    }
 }
 
