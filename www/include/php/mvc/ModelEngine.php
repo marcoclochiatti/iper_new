@@ -171,13 +171,6 @@ class ModelEngineMem extends Configurable
 //            echo $e->getMessage();
         }       
     }   
-   /**
-   * Il metodo statico che si occupa di restituire l’istanza univoca della classe.
-   * per facilitare il riutilizzo del codice in altre situazioni, si frutta la
-   * costante __CLASS__ che viene valutata automaticamente dall’interprete con il
-   * nome della classe corrente (ricordo che “new $variabile” crea un’istanza della classe
-   * il cui nome è specificato come stringa all’interno di $variabile)
-   */
     public static function getInstance(){
         if(self::$instance == null){   
             $c = __CLASS__;
@@ -200,7 +193,7 @@ class ModelEngineMem extends Configurable
     public function setValue($keyname,$value){
         $c = ModelEngineMem::getInstance();
         if ($c->connection_status){
-            $$c->redis->set($keyname,$value);              
+            $c->redis->set($keyname,$value);              
             $result = TRUE;
         }else{
             $result = FALSE;
