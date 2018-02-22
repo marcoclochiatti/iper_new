@@ -25,6 +25,10 @@ class TemplateEngine extends Configurable
 //       $this->smarty->caching = true;
    }
    
+   public function get_smarty(){
+       return $this->smarty;
+   }
+   
    public function display($file){
        return $this->smarty->display($file);
    }
@@ -33,10 +37,15 @@ class TemplateEngine extends Configurable
        $this->smarty->clear_all_assign();
    }
    
-   public function assign($list_variables){
-       foreach($list_variables as $var_name->$var_value){
-           $this->smarty->assign($var_name, $var_value); 
-       }
+    public function assign($var_name,$list_variables){
+        $tmp = count($list_variables);
+        if ($tmp>0){
+            if($tmp==1){
+                $this->smarty->assign($var_name, $list_variables[0]);
+            }else{
+                $this->smarty->assign($var_name, $list_variables);
+            }
+        }
    }
    /**
    * Il metodo statico che si occupa di restituire l’istanza univoca della classe.

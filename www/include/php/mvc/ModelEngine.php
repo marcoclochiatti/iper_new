@@ -156,7 +156,8 @@ class ModelEngineMem extends Configurable
         Predis\Autoloader::register();
         $redis_array = array('scheme'=>Configurable::queryConfiguration('nosql','scheme'),
                              'host'=>Configurable::queryConfiguration('nosql','host'),
-                             'port'=>Configurable::queryConfiguration('nosql','port')
+                             'port'=>Configurable::queryConfiguration('nosql','port'),
+                             'database'=>1
                             );
 
         $p = Configurable::queryConfiguration('nosql','pass');

@@ -6,8 +6,8 @@ if (session_status() != PHP_SESSION_DISABLED){
         include_once 'www/include/php/utility/Dictionary.php';
         $smarty = TemplateEngine::getInstance();   
         $dic = Dictionary::getInstance('IT');
-        $smarty->assign('DIC', $dic->getByKey('index'));
-        $t =  $smarty->display('index.tpl');
+        $smarty->assign('DIC', $dic->getByKey('SITE_TITLE'));
+        $smarty->display('index.tpl');        
     }else{
         
     }        

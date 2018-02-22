@@ -8,20 +8,21 @@
 
 include_once 'www/include/php/mvc/Model.php';
 
-final class Dictionary extends ModelM{
+final class Dictionary{
     private static $instance = null;
     public $dictionary =  array();    
     public $redis = FALSE;
     
     private function __construct($language){
         $this->language = $language;
-        $db = new Model(); 
-        $dic = $db->getDictionaryLanguage($language);            
-        if($this->getStatusRedis()){
+        $this->db = new Model();
+        $this->redis_m = new ModelM();
+        $dic = $this->db->getDictionaryLanguage($language);            
+        if($this->redis_m->getStatusRedis()){
 //            $r = $this->dictionary;
             $this->redis = TRUE;
             foreach($dic as $r){
-                $this->setDictionaryByLang($language,$r[0], $r[1]);
+                $this->redis_m->setDictionaryByLang($language,$r[0], $r[1]);
             }
         }else{
            $this->redis = FALSE;
@@ -38,12 +39,12 @@ final class Dictionary extends ModelM{
     
     public function getByKey($keyname){
         if($this->redis){
-            $result = $this->getValue($keyname);
+            $result = $this->redis_m->getDictionaryByLang($this->language, $keyname);
         }else{
             $db = new Model(); 
             $result = $db->getDictionaryKey($this->language, $keyname);
         }
-        return $result;
+        return array($result);
     }
 }
 

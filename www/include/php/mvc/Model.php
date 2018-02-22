@@ -36,6 +36,12 @@ class Model extends ModelEngine
 
 
 class ModelM extends ModelEngineMem{
+    
+    public function __construct() {
+        $r = ModelEngineMem::getInstance();
+    }
+    
+    
     private function build_key($language,$key){
         return $language .'_' .$key;
     }
@@ -52,7 +58,7 @@ class ModelM extends ModelEngineMem{
     
     public function getDictionaryByLang($language,$key){
         $new_key = $this->build_key($language, $key);
-        $result = ModelEngineMem::getValue($new_key, $value);
+        $result = ModelEngineMem::getValue($new_key);
         return $result;
     }
 }
