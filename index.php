@@ -1,13 +1,7 @@
 <?php
 if (session_status() != PHP_SESSION_DISABLED){
     if (session_status() == PHP_SESSION_NONE) {
-        include_once 'boostrap.php';
-        include_once 'www/include/php/utility/Template.php';
-        include_once 'www/include/php/utility/Dictionary.php';
-        $smarty = TemplateEngine::getInstance();   
-        $dic = Dictionary::getInstance('IT');
-        $smarty->assign('DIC', $dic->getByKey('SITE_TITLE'));
-        $smarty->display('index.tpl');        
+        include_once 'boostrap.php';     
     }else{
         
     }        

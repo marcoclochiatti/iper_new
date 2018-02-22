@@ -1,3 +1,27 @@
+<?php
+/* Smarty version 3.1.30, created on 2018-02-22 15:51:34
+  from "C:\xampp\htdocs\iper\www\smarty\templates\index.tpl" */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.30',
+  'unifunc' => 'content_5a8ed8f67228d4_23987083',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'd98fbea689aaa6454760761186a0bb0819b41303' => 
+    array (
+      0 => 'C:\\xampp\\htdocs\\iper\\www\\smarty\\templates\\index.tpl',
+      1 => 1519053429,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5a8ed8f67228d4_23987083 (Smarty_Internal_Template $_smarty_tpl) {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,17 +29,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{TITLE_SITE_HOME}Home | Impact By Distinctive Themes</title>
+    <title>Home | Impact By Distinctive Themes</title>
     <link href="www/include/css/bootstrap.min.css" rel="stylesheet">
     <link href="www/include/css/font-awesome.min.css" rel="stylesheet">
     <link href="www/include/css/pe-icons.css" rel="stylesheet">
     <link href="www/include/css/prettyPhoto.css" rel="stylesheet">
     <link href="www/include/css/animate.css" rel="stylesheet">
     <link href="www/include/css/style.css" rel="stylesheet">
-    <script src="www/include/js/jquery.js"></script>
+    <?php echo '<script'; ?>
+ src="www/include/js/jquery.js"><?php echo '</script'; ?>
+>
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <?php echo '<script'; ?>
+ src="js/html5shiv.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="js/respond.min.js"><?php echo '</script'; ?>
+>
     <![endif]-->       
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="images/ico/apple-touch-icon-144x144.png">
@@ -23,8 +53,9 @@
     <link rel="apple-touch-icon" sizes="72x72" href="images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" href="images/ico/apple-touch-icon-57x57.png">
     
-    <script type="text/javascript">
-    {literal}
+    <?php echo '<script'; ?>
+ type="text/javascript">
+    
     jQuery(document).ready(function($){
 	'use strict';
       	jQuery('body').backstretch(
@@ -50,8 +81,9 @@
          	longitude: -73.9863,
           	zoom: 14 });
     });
-    {/literal}
-    </script>    
+    
+    <?php echo '</script'; ?>
+>    
 </head><!--/head-->
 <body>
 <div id="preloader"></div>
@@ -1067,10 +1099,22 @@
     </div>
 
 
-    <script src="www/include/js/plugins.js"></script>
-    <script src="www/include/js/bootstrap.min.js"></script>
-    <script src="www/include/js/jquery.prettyPhoto.js"></script>   
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWDPCiH080dNCTYC-uprmLOn2mt2BMSUk&amp;sensor=true"></script> 
-    <script src="www/include/js/init.js"></script>
+    <?php echo '<script'; ?>
+ src="www/include/js/plugins.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="www/include/js/bootstrap.min.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="www/include/js/jquery.prettyPhoto.js"><?php echo '</script'; ?>
+>   
+    <?php echo '<script'; ?>
+ type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWDPCiH080dNCTYC-uprmLOn2mt2BMSUk&amp;sensor=true"><?php echo '</script'; ?>
+> 
+    <?php echo '<script'; ?>
+ src="www/include/js/init.js"><?php echo '</script'; ?>
+>
 </body>
 </html>
+<?php }
+}
