@@ -9,7 +9,9 @@
  /* mio commento ste */
 
 include_once 'www/include/thirdparty/smarty/libs/Smarty.class.php';
+include_once 'www/include/php/mvc/Model.php';
 include_once 'www/config/Configurable.php';
+
 
 class TemplateEngine extends Configurable
 {
@@ -29,14 +31,16 @@ class TemplateEngine extends Configurable
        return $this->smarty;
    }
    
-   public function display($file){
-       return $this->smarty->display($file);
-   }
    
    public function reset_assign(){
        $this->smarty->clear_all_assign();
    }
-   
+
+    public function set_css_by_page($page){
+        $r = new ModelM();
+        
+        
+    }
     public function assign($var_name,$list_variables){
         $tmp = count($list_variables);
         if ($tmp>0){
@@ -64,6 +68,8 @@ class TemplateEngine extends Configurable
       
       return self::$instance;
    }
+   
+   
 }
 
 ?>

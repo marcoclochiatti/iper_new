@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{TITLE_SITE_HOME}Home | Impact By Distinctive Themes</title>
+    <title>{$TITLE_SITE_PAGE}</title>
     <link href="www/include/css/bootstrap.min.css" rel="stylesheet">
     <link href="www/include/css/font-awesome.min.css" rel="stylesheet">
     <link href="www/include/css/pe-icons.css" rel="stylesheet">
