@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 23, 2018 alle 16:35
+-- Creato il: Feb 23, 2018 alle 18:30
 -- Versione del server: 10.1.29-MariaDB
 -- Versione PHP: 7.2.0
 
@@ -16525,7 +16525,8 @@ CREATE TABLE `sys_script_ref_page` (
 --
 
 INSERT INTO `sys_script_ref_page` (`id`, `page_key`, `position`, `src`, `creationdate`, `last_modify`, `user`) VALUES
-(1, 'index', 'header', 'www/include/js/jquery.js', '2018-02-23 09:23:58', '2018-02-23 16:09:49', 1);
+(1, 'index', 'header', 'www/include/js/jquery.js', '2018-02-23 09:23:58', '2018-02-23 16:09:49', 1),
+(2, 'index', 'footer', 'www/include/js/plugins.js', '2018-02-23 18:29:37', '2018-02-23 18:29:37', 1);
 
 --
 -- Trigger `sys_script_ref_page`
@@ -16704,7 +16705,7 @@ ALTER TABLE `sys_ref_page`
 -- AUTO_INCREMENT per la tabella `sys_script_ref_page`
 --
 ALTER TABLE `sys_script_ref_page`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
