@@ -1,6 +1,6 @@
 <?php
 include_once 'www/config/common.inc.php';
-
+$smarty->auto_assign_header_footer('index');
 $smarty->assign('DIC', $dic->getByKey('SITE_TITLE'));
 $smarty->assign('TITLE_SITE_PAGE', $dic->getByKey('TITLE_SITE_HOME'));
 $smarty->display('index.tpl');        

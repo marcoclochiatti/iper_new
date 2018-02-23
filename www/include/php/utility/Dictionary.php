@@ -49,7 +49,8 @@ final class Dictionary{
             }
         }else{
             $db = new Model(); 
-            $result = $db->getDictionaryKey($this->language, $keyname);
+            $res = $db->getDictionaryKey($this->language, $keyname);
+            $result = $res[0][0];
         }
         return array($result);
     }

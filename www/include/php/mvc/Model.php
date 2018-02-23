@@ -90,7 +90,7 @@ class Model extends ModelEngine
     }
     
     public function getScriptPage($page,$position){
-        $sql = "SELECT page_key,position,src FROM sys_ref_page WHERE page_key=? AND position=?";
+        $sql = "SELECT page_key,position,src FROM sys_script_ref_page WHERE page_key=? AND position=?";
         $result_src = ModelEngine::querySelect($sql,array($page,$position));
         $result = $this->convertScriptPageToArray($result_src);        
         return $result;
@@ -204,7 +204,12 @@ class ModelM extends ModelEngineMem{
             $result = array($key_name=>$this->from_json($tmp));
         }else{
             $m = new Model();
-            $result = $m->getReletionPage($page,$position);
+            if($type=='rel'){
+                $result = $m->getReletionPage($page,$position);
+            }
+            if($type=='script'){
+                $result = $m->getScriptPage($page,$position);                
+            }
             $this->redis_connection->setValue($key_name,$this->to_json($result));
         }        
         return $result;

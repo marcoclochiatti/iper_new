@@ -24,10 +24,10 @@ class TemplateEngine extends Configurable
        $this->smarty->setCompileDir('www/smarty/templates_c');
        $this->smarty->setConfigDir('www/smarty/configs');
        $this->smarty->setCacheDir('www/smarty/cache');       
-       $redis = new ModelM();
-       if(!$redis->key_insered('template')){
-           $redis->key_insert('template');
-           $redis->setRelScriptPageAll();
+       $this->redis = new ModelM();
+       if(!$this->redis->key_insered('template')){
+           $this->redis->key_insert('template');
+           $this->redis->setRelScriptPageAll();
        }
        
 //       $this->smarty->caching = true;
@@ -56,6 +56,15 @@ class TemplateEngine extends Configurable
             }
         }
    }
+   
+   public function auto_assign_header_footer($page){
+       $result = array();
+       $tmp = $this->redis->getRelScriptPage($page,'header','rel');
+       $this->smarty->assign('rel_header',$tmp[$page .'_header']);
+       $tmp1 = $this->redis->getRelScriptPage($page,'header','script');
+       $this->smarty->assign('script_header',$tmp1);            
+   }
+   
    
    public function display($file){
        $this->smarty->display($file);
