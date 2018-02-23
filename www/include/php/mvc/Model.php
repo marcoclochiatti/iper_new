@@ -9,7 +9,6 @@ include_once 'ModelEngine.php';
 include_once 'www/config/Configurable.php';
 class Model extends ModelEngine
 {
-    
     public function getDictionaryKey($language,$key){
         $sql = "SELECT " .$language ." FROM dictionary WHERE dic_key = ?";
         $result = ModelEngine::querySelect($sql,array($key));
@@ -32,33 +31,161 @@ class Model extends ModelEngine
         $result = ModelEngine::querySelect($sql,array());
         return $result;
     }
+    
+    private function convertRelationPageToArray($result_param_raw,$result_rel){
+        $result_param = array();
+        foreach($result_param_raw as $res_tmp){
+            $result_param[$res_tmp['id_ref']] = array('name'=>$res_tmp['name'], 'value'=>$res_tmp['value']);
+        }
+        $result = array();
+        foreach($result_rel as $res){
+            $str = '<link rel="' .$res['rel'] .'" href="' .$res['url'];
+            if(isset($res_tmp[$res['id']])){
+                $str .= ' '. $res_tmp[$res['id']]['name'] .'="' .$res_tmp[$res['id']]['value'] .'" >';
+            }else{
+                $str .= ' >';
+            }
+            $index = $res_tmp['page_key'] .'_' .$res_tmp['position'];            
+            if(!isset($result[$index])){
+                $result[$index] = array();
+            }
+            $result[$index][] = $str;            
+        }
+        return $result;
+    }
+    
+    private function convertScriptPageToArray($result_src){
+        $result = array();
+        foreach($result_src as $res){
+            $str = '<script src="' .$res['src'] .'"></script>';
+            $index = $res['page_key'] .'_' .$res['position'];            
+            $result[$index] = $str;
+        }
+        return $result;
+    }
+    
+    public function getReletionPage($page,$position){
+        $sql = "SELECT id,page_key,position,rel,url FROM sys_ref_page WHERE page_key = ? AND position= ?";
+        $result_rel = ModelEngine::querySelect($sql,array($page,$position));
+        $sql = "SELECT a.id, b.name, b.value FROM sys_ref_page a, sys_param_ref_page b WHERE a.id = b.id_ref AND page_key = ? AND position= ?";
+        $result_param_raw = ModelEngine::querySelect($sql,array($page,$position));
+        $result = $this->convertRelationPageToArray($result_param_raw,$result_rel);
+        return $result;
+    }
+    
+    public function getReletion(){
+        $sql = "SELECT id,page_key,position,rel,url FROM sys_ref_page";
+        $result_rel = ModelEngine::querySelect($sql,array());
+        $sql = "SELECT a.id, b.name, b.value FROM sys_ref_page a, sys_param_ref_page b WHERE a.id = b.id_ref";
+        $result_param_raw = ModelEngine::querySelect($sql,array());
+        $result = $this->convertRelationPageToArray($result_param_raw,$result_rel);        
+        return $result;
+    }
+    
+    public function getScript(){
+        $sql = "SELECT page_key,position,src FROM sys_ref_page";
+        $result_src = ModelEngine::querySelect($sql,array());
+        $result = $this->convertScriptPageToArray($result_src);        
+        return $result;
+    }
+    
+    public function getScriptPage($page,$position){
+        $sql = "SELECT page_key,position,src FROM sys_ref_page WHERE page_key=? AND position=?";
+        $result_src = ModelEngine::querySelect($sql,array($page,$position));
+        $result = $this->convertScriptPageToArray($result_src);        
+        return $result;
+    }
+
 }
 
 
 class ModelM extends ModelEngineMem{
+    public $redis_connection;
     
     public function __construct() {
-        $r = ModelEngineMem::getInstance();
+        $this->redis_connection = ModelEngineMem::getInstance();
     }
     
     
+    private function check_key($key_name){
+        if($this->redis_connection->connection_status){
+            return $this->redis_connection->exists($key_name);
+        }else{
+            return FALSE;
+        }
+    }
+       
     private function build_key($language,$key){
         return $language .'_' .$key;
     }
     
+    private function to_json($variable){
+        return json_encode($variable);
+    }
+
+    private function from_json($json_str){
+        return json_decode($json_str);
+    }
+
+    private function getRelScript($type){
+        $m = new Model();
+        if($type=='rel'){
+            $result = $m->getReletion();
+        }
+        if($type=='script'){
+            $result = $m->getScript();
+        }
+        return $result;
+    }
+    
     public function getStatusRedis(){
-        $r = ModelEngineMem::getInstance();
-        return $r->connection_status;
+        $this->redis_connection = ModelEngineMem::getInstance();
+        return $this->redis_connection->connection_status;
     }
     public function setDictionaryByLang($language,$key,$value){
         $new_key = $this->build_key($language, $key);
-        $result = ModelEngineMem::setValue($new_key, $value);        
+        $result = $this->redis_connection->setValue($new_key, $value);        
         return TRUE;
     }
     
     public function getDictionaryByLang($language,$key){
-        $new_key = $this->build_key($language, $key);
-        $result = ModelEngineMem::getValue($new_key);
+        $new_key = $this->build_key($language, $key);   
+        if($this->check_key($new_key)){
+            $result = $this->redis_connection->getValue($new_key);
+        }else{
+            $result = NULL;
+        }
+        return $result;
+    }
+        
+    public function setRelScriptPage($type){
+        if($this->getStatusRedis){
+            $result = $this->getRelScript($type);
+            $status = TRUE;       
+            foreach($result as $key=>$res){
+                $k = $type .'_' .$key;
+                $r = $this->redis_connection->setValue($k,$self->to_json($res));
+                if($r==FALSE){
+                    $status = FALSE;
+                }
+            }
+        }else{
+            $status = FALSE;
+        }
+        return $status;
+    }    
+    
+    public function getRelScriptPage($page, $position, $type){
+        $key_name = $this->build_key($page,$position);
+        $k = $type .'_' .$key_name;
+        if($this->check_key($k)){
+            $tmp = $this->redis_connection->getValue($k);
+            $result = array($key_name=>$this->from_json($tmp));
+        }else{
+            $m = new Model();
+            $result = $m->getReletionPage($page,$position);
+            $this->redis_connection->setValue($key_name,$self->to_json($result));
+        }        
         return $result;
     }
 }

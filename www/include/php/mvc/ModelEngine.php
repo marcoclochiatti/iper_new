@@ -25,9 +25,7 @@ class ModelEngineBase extends Configurable
         } catch (PDOException $e) {
             echo $e->getMessage();
         }       
-    }   
-    
-    
+    }     
     public static function getInstance(){
         if(self::$instance == null){   
             $c = __CLASS__;
@@ -64,8 +62,6 @@ class ModelEngine extends ModelEngineBase{
         return $result;
     }
     
-    
-        
     private static function insertInto($tableName,$values, $user) {
         $i = NULL;
         try{
@@ -131,7 +127,6 @@ class ModelEngine extends ModelEngineBase{
         } 
     }
   
-    
     public  function querySelect($sql, $values){        
         $result = $this->Select($sql,$values);
         return $result;                
@@ -184,7 +179,11 @@ class ModelEngineMem extends Configurable
     public function getValue($keyname){
         $c = ModelEngineMem::getInstance();
         if ($c->connection_status){
-            $result = $c->redis->get($keyname);              
+            if($c->redis->exists($keyname)){
+                $result = $c->redis->get($keyname);              
+            }else{
+                $result = NULL;
+            }
         }else{
             $result = NULL;
         }
@@ -194,7 +193,8 @@ class ModelEngineMem extends Configurable
     public function setValue($keyname,$value){
         $c = ModelEngineMem::getInstance();
         if ($c->connection_status){
-            $c->redis->set($keyname,$value);              
+            $c->redis->set($keyname,$value);  
+            $c->redis->expire($keyname, 86400);
             $result = TRUE;
         }else{
             $result = FALSE;

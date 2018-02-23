@@ -40,6 +40,10 @@ final class Dictionary{
     public function getByKey($keyname){
         if($this->redis){
             $result = $this->redis_m->getDictionaryByLang($this->language, $keyname);
+            if($result == NULL){
+                $result = $db->getDictionaryKey($this->language, $keyname);
+                $this->redis_m->setDictionaryByLang($this->language, $keyname,$result);
+            }
         }else{
             $db = new Model(); 
             $result = $db->getDictionaryKey($this->language, $keyname);

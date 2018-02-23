@@ -6,9 +6,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{$TITLE_SITE_PAGE}</title>
-{if isset($CSSS)}
-    {foreach $CSSS as $css }
-     <link href="{$css}" rel="stylesheet">
+{if isset($REFS)}
+    {foreach $REFS as $ref }
+        {if isset($ref.params)}}
+    <link rel="apple-touch-icon" {$ref.params,.name}="{$ref.params.value}" href="images/ico/apple-touch-icon-144x144.png">
+        {else}    
+    <link href="{$ref.url}" rel="{$ref.rel}">
+        {/if}
     {/foreach}
 {/if}
     <link href="www/include/css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +31,7 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->  
-{if isset($ICONS)}
+{if isset($)}
     {foreach $ICONS as $icon}
         {if isset($icon.sizes)}
         <link rel="{$icon.rel}" sizes="{$icon.size}" href="{$icon.href}">
