@@ -35,17 +35,17 @@ class Model extends ModelEngine
     private function convertRelationPageToArray($result_param_raw,$result_rel){
         $result_param = array();
         foreach($result_param_raw as $res_tmp){
-            $result_param[$res_tmp['id_ref']] = array('name'=>$res_tmp['name'], 'value'=>$res_tmp['value']);
+            $result_param[$res_tmp['id']] = array('name'=>$res_tmp['name'], 'value'=>$res_tmp['value']);
         }
         $result = array();
         foreach($result_rel as $res){
-            $str = '<link rel="' .$res['rel'] .'" href="' .$res['url'];
-            if(isset($res_tmp[$res['id']])){
-                $str .= ' '. $res_tmp[$res['id']]['name'] .'="' .$res_tmp[$res['id']]['value'] .'" >';
+            $str = '<link rel="' .$res['rel'] .'" href="' .$res['url'] .'"';
+            if(isset($result_param[$res['id']])){
+                $str .= ' '. $result_param[$res['id']]['name'] .'="' .$result_param[$res['id']]['value'] .'" >';
             }else{
                 $str .= ' >';
             }
-            $index = $res_tmp['page_key'] .'_' .$res_tmp['position'];            
+            $index = $res['page_key'] .'_' .$res['position'];            
             if(!isset($result[$index])){
                 $result[$index] = array();
             }
@@ -83,7 +83,7 @@ class Model extends ModelEngine
     }
     
     public function getScript(){
-        $sql = "SELECT page_key,position,src FROM sys_ref_page";
+        $sql = "SELECT page_key,position,src FROM sys_script_ref_page";
         $result_src = ModelEngine::querySelect($sql,array());
         $result = $this->convertScriptPageToArray($result_src);        
         return $result;
@@ -138,6 +138,19 @@ class ModelM extends ModelEngineMem{
         return $result;
     }
     
+    public function key_insered($type){
+        $key = Configurable::queryConfiguration('nosql', 'keyinsertvalue');
+        $key .= $type;
+        $t = $this->check_key($key);
+        return $this->check_key($key);
+    }
+    
+    public function key_insert($type){
+        $key = Configurable::queryConfiguration('nosql', 'keyinsertvalue');
+        $key .= $type;
+        $this->setValue($key, '1');
+    }
+    
     public function getStatusRedis(){
         $this->redis_connection = ModelEngineMem::getInstance();
         return $this->redis_connection->connection_status;
@@ -158,13 +171,21 @@ class ModelM extends ModelEngineMem{
         return $result;
     }
         
+    public function setRelScriptPageAll(){        
+        $r = $this->setRelScriptPage('rel');
+        if($r){
+            $this->setRelScriptPage('script');                
+        }
+        return $r;
+    }
+    
     public function setRelScriptPage($type){
-        if($this->getStatusRedis){
+        if($this->getStatusRedis()){
             $result = $this->getRelScript($type);
             $status = TRUE;       
             foreach($result as $key=>$res){
                 $k = $type .'_' .$key;
-                $r = $this->redis_connection->setValue($k,$self->to_json($res));
+                $r = $this->redis_connection->setValue($k,$this->to_json($res));
                 if($r==FALSE){
                     $status = FALSE;
                 }
@@ -184,7 +205,7 @@ class ModelM extends ModelEngineMem{
         }else{
             $m = new Model();
             $result = $m->getReletionPage($page,$position);
-            $this->redis_connection->setValue($key_name,$self->to_json($result));
+            $this->redis_connection->setValue($key_name,$this->to_json($result));
         }        
         return $result;
     }

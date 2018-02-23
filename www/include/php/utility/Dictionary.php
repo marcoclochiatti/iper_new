@@ -17,16 +17,19 @@ final class Dictionary{
         $this->language = $language;
         $this->db = new Model();
         $this->redis_m = new ModelM();
-        $dic = $this->db->getDictionaryLanguage($language);            
-        if($this->redis_m->getStatusRedis()){
+        if(!$this->redis_m->key_insered($language)){
+            $this->redis_m->key_insert($language);                
+            $dic = $this->db->getDictionaryLanguage($language);            
+            if($this->redis_m->getStatusRedis()){
 //            $r = $this->dictionary;
-            $this->redis = TRUE;
-            foreach($dic as $r){
-                $this->redis_m->setDictionaryByLang($language,$r[0], $r[1]);
-            }
-        }else{
-           $this->redis = FALSE;
-        }                
+                $this->redis = TRUE;
+                foreach($dic as $r){
+                    $this->redis_m->setDictionaryByLang($language,$r[0], $r[1]);
+                }
+            }else{
+               $this->redis = FALSE;
+            } 
+        }
     } 
             
     public static function getInstance($language){

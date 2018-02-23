@@ -6,8 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{$TITLE_SITE_PAGE}</title>
-{if isset($REFS)}
-    {foreach $REFS as $ref }
+{if isset($rel_header)}
+    {foreach $rel_header as $ref }
         {if isset($ref.params)}}
     <link rel="apple-touch-icon" {$ref.params,.name}="{$ref.params.value}" href="images/ico/apple-touch-icon-144x144.png">
         {else}    
@@ -21,8 +21,8 @@
     <link href="www/include/css/prettyPhoto.css" rel="stylesheet">
     <link href="www/include/css/animate.css" rel="stylesheet">
     <link href="www/include/css/style.css" rel="stylesheet">
-{if issset($SCRIPTS)}    
-    {foreach $SCRIPTS as $script}
+{if issset($script_header)}    
+    {foreach $script_header as $script}
         <script src="{$script}"></script>
     {/foreach}
 {/if}
@@ -31,17 +31,6 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->  
-{if isset($)}
-    {foreach $ICONS as $icon}
-        {if isset($icon.sizes)}
-        <link rel="{$icon.rel}" sizes="{$icon.size}" href="{$icon.href}">
-        {else}
-        <link rel="{$icon.rel}" href="{$icon.href}">
-        {/if}
-    {/foreach}
-{/if}
-
-if isset($)
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="images/ico/apple-touch-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/ico/apple-touch-icon-114x114.png">

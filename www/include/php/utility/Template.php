@@ -23,7 +23,13 @@ class TemplateEngine extends Configurable
        $this->smarty->setTemplateDir('www/smarty/templates');
        $this->smarty->setCompileDir('www/smarty/templates_c');
        $this->smarty->setConfigDir('www/smarty/configs');
-       $this->smarty->setCacheDir('www/smarty/cache');
+       $this->smarty->setCacheDir('www/smarty/cache');       
+       $redis = new ModelM();
+       if(!$redis->key_insered('template')){
+           $redis->key_insert('template');
+           $redis->setRelScriptPageAll();
+       }
+       
 //       $this->smarty->caching = true;
    }
    
@@ -37,10 +43,9 @@ class TemplateEngine extends Configurable
    }
 
     public function set_css_by_page($page){
-        $r = new ModelM();
-        
-        
+        $r = new ModelM();  
     }
+    
     public function assign($var_name,$list_variables){
         $tmp = count($list_variables);
         if ($tmp>0){
@@ -51,13 +56,11 @@ class TemplateEngine extends Configurable
             }
         }
    }
-   /**
-   * Il metodo statico che si occupa di restituire l’istanza univoca della classe.
-   * per facilitare il riutilizzo del codice in altre situazioni, si frutta la
-   * costante __CLASS__ che viene valutata automaticamente dall’interprete con il
-   * nome della classe corrente (ricordo che “new $variabile” crea un’istanza della classe
-   * il cui nome è specificato come stringa all’interno di $variabile)
-   */
+   
+   public function display($file){
+       $this->smarty->display($file);
+   }
+   
    public static function getInstance()
    {
       if(self::$instance == null)

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2018-02-22 16:22:55
+/* Smarty version 3.1.30, created on 2018-02-23 14:51:06
   from "C:\xampp\htdocs\iper\www\smarty\templates\index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5a8ee04f4d2072_78316618',
+  'unifunc' => 'content_5a901c4aa5dde3_02183536',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd98fbea689aaa6454760761186a0bb0819b41303' => 
     array (
       0 => 'C:\\xampp\\htdocs\\iper\\www\\smarty\\templates\\index.tpl',
-      1 => 1519312969,
+      1 => 1519313021,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5a8ee04f4d2072_78316618 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5a901c4aa5dde3_02183536 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,8 +29,8 @@ function content_5a8ee04f4d2072_78316618 (Smarty_Internal_Template $_smarty_tpl)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title><?php echo $_smarty_tpl->tpl_vars['TITLE_SITE_HOME']->value;?>
-Home | Impact By Distinctive Themes</title>
+    <title><?php echo $_smarty_tpl->tpl_vars['TITLE_SITE_PAGE']->value;?>
+</title>
     <link href="www/include/css/bootstrap.min.css" rel="stylesheet">
     <link href="www/include/css/font-awesome.min.css" rel="stylesheet">
     <link href="www/include/css/pe-icons.css" rel="stylesheet">

@@ -156,7 +156,7 @@ class ModelEngineMem extends Configurable
                             );
 
         $p = Configurable::queryConfiguration('nosql','pass');
-        if($p!=''){
+        if($p!='NULL'){
             $redis_array['password'] = $p;
         }
         try {
@@ -167,6 +167,7 @@ class ModelEngineMem extends Configurable
 //            echo $e->getMessage();
         }       
     }   
+    
     public static function getInstance(){
         if(self::$instance == null){   
             $c = __CLASS__;
@@ -201,6 +202,15 @@ class ModelEngineMem extends Configurable
         }
         return $result;
    }
+   
+    public function exists($keyname){
+        $c = ModelEngineMem::getInstance();
+        $result = FALSE;
+        if ($c->connection_status){
+            $result = $c->redis->exists($keyname);
+        }
+        return $result;
+    }
 }
 
 ?>
