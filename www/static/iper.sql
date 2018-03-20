@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.8
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 23, 2018 alle 18:30
--- Versione del server: 10.1.29-MariaDB
--- Versione PHP: 7.2.0
+-- Creato il: Mar 20, 2018 alle 16:35
+-- Versione del server: 10.1.21-MariaDB
+-- Versione PHP: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,129 @@ SET time_zone = "+00:00";
 --
 -- Database: `iper`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `advertiser`
+--
+
+CREATE TABLE `advertiser` (
+  `idadvertiser` int(10) NOT NULL,
+  `iduser` int(10) NOT NULL,
+  `idage` int(10) NOT NULL,
+  `idbodysize` int(10) NOT NULL,
+  `idethnicity` int(10) NOT NULL,
+  `height` int(3) NOT NULL,
+  `weight` int(3) NOT NULL,
+  `idhair` int(10) NOT NULL,
+  `idpubis` int(10) NOT NULL,
+  `idbreast` int(10) NOT NULL,
+  `idcountry` int(10) NOT NULL,
+  `language` varchar(100) NOT NULL,
+  `dresssize` varchar(3) NOT NULL,
+  `shoesize` varchar(3) NOT NULL,
+  `piercing` tinyint(1) NOT NULL,
+  `smokes` tinyint(1) NOT NULL,
+  `tatoo` tinyint(1) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `advertiser_available`
+--
+
+CREATE TABLE `advertiser_available` (
+  `idadvlang` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `idavailable` int(10) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `advertiser_language`
+--
+
+CREATE TABLE `advertiser_language` (
+  `idadvlang` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `idlanguage` int(10) NOT NULL,
+  `star` int(1) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `advertiser_performance`
+--
+
+CREATE TABLE `advertiser_performance` (
+  `idadvertiser_performance` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `id_performances` int(10) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `age`
+--
+
+CREATE TABLE `age` (
+  `id` int(10) NOT NULL,
+  `id_age` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `age`
+--
+
+INSERT INTO `age` (`id`, `id_age`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, '18-20', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, '21-25', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, '26-35', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, '36-50', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, '>50', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `available`
+--
+
+CREATE TABLE `available` (
+  `idavailable` int(10) NOT NULL,
+  `text` varchar(50) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `available`
+--
+
+INSERT INTO `available` (`idavailable`, `text`, `creationdate`, `last_modify`) VALUES
+(1, 'Ricevo Appartamento', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(2, 'Outcall Albergo', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(3, 'Outcall Casa privata', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(4, 'Feste addio Celibato', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(5, 'Feste addio Nubilato', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(6, 'Orgie', '2018-03-20 00:00:00', '2018-03-20 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -7874,6 +7997,92 @@ SET new.last_modify :=now();
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `bodysize`
+--
+
+CREATE TABLE `bodysize` (
+  `id` int(10) NOT NULL,
+  `id_bodysize` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `bodysize`
+--
+
+INSERT INTO `bodysize` (`id`, `id_bodysize`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Skinny', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Normale', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Atletica', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, 'Formosa', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, 'BBW', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `breast`
+--
+
+CREATE TABLE `breast` (
+  `idbreast` int(10) NOT NULL,
+  `text` varchar(50) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `breast`
+--
+
+INSERT INTO `breast` (`idbreast`, `text`, `creationdate`, `last_modify`) VALUES
+(1, 'Piccole', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(2, 'Medie Naturali', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(3, 'Medie Rifatte', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(4, 'Grandi Naturali', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(5, 'Grandi Rifatte', '2018-03-20 00:00:00', '2018-03-20 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(10) NOT NULL,
+  `id_category` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `category`
+--
+
+INSERT INTO `category` (`id`, `id_category`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Escort', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Trans', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Gigolò', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, 'Coppia', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, 'Massaggi', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(6, 6, 'Girls', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(7, 7, 'Mistress', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(8, 8, 'Locali e Club', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(9, 9, 'Donna cerca Uomo', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(10, 10, 'Uomo cerca Donna', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(11, 11, 'Scambio coppie', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(12, 12, 'Donna cerca Donna', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(13, 13, 'Uomo cerca Uomo', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
 
 -- --------------------------------------------------------
 
@@ -16210,6 +16419,179 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `ethnicity`
+--
+
+CREATE TABLE `ethnicity` (
+  `id` int(10) NOT NULL,
+  `id_ethnicity` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `ethnicity`
+--
+
+INSERT INTO `ethnicity` (`id`, `id_ethnicity`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Caucasica', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Latina', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Asiatica', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, 'Africana', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, 'Indiana', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(6, 6, 'Nordica', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `hair`
+--
+
+CREATE TABLE `hair` (
+  `id` int(10) NOT NULL,
+  `id_hair` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `hair`
+--
+
+INSERT INTO `hair` (`id`, `id_hair`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Bionda', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Castana', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Mora', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, 'Rossa', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `height`
+--
+
+CREATE TABLE `height` (
+  `id` int(10) NOT NULL,
+  `id_height` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `height`
+--
+
+INSERT INTO `height` (`id`, `id_height`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, '<150', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, '150-165', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, '166-180', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, '>180', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `language`
+--
+
+CREATE TABLE `language` (
+  `idlanguage` int(10) NOT NULL,
+  `language` varchar(50) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `language`
+--
+
+INSERT INTO `language` (`idlanguage`, `language`, `creationdate`, `last_modify`) VALUES
+(1, 'Italiano', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(2, 'English', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(3, 'Chinese', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(4, 'Russian', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(5, 'Deutsch', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(6, 'Spanish', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(7, 'Francais', '2018-03-20 00:00:00', '2018-03-20 00:00:00'),
+(8, 'Svedish', '2018-03-20 00:00:00', '2018-03-20 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `performances`
+--
+
+CREATE TABLE `performances` (
+  `id` int(10) NOT NULL,
+  `id_performances` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `performances`
+--
+
+INSERT INTO `performances` (`id`, `id_performances`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Rapporto sessuale', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Rapporto anale', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Orale scoperto BBJ', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, 'Massaggio professionale', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, 'Baci profondi FK', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(6, 6, 'Rapporto amichevole GFE', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(7, 7, 'Due Ragazze', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(8, 8, 'Orale coperto BJ', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(9, 9, 'Venuta in bocca CIM', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(10, 10, 'Venuta sul seno COB', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(11, 11, 'Porn Star Experience', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(12, 12, 'Sesso orale (DATY)', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(13, 13, '69', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(14, 14, 'Rimming', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(15, 15, 'Masturbazione con Mano (HJ)', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(16, 15, 'Appuntamenti', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `price`
+--
+
+CREATE TABLE `price` (
+  `id` int(10) NOT NULL,
+  `id_price` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `price`
+--
+
+INSERT INTO `price` (`id`, `id_price`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Gratis', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, '<=50', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, '51-100', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, '101-150', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(5, 5, '151-200', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(6, 6, '>200', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `province`
 --
 
@@ -16352,6 +16734,57 @@ SET new.last_modify :=now();
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `pubis`
+--
+
+CREATE TABLE `pubis` (
+  `id` int(10) NOT NULL,
+  `id_pubis` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `pubis`
+--
+
+INSERT INTO `pubis` (`id`, `id_pubis`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, 'Rasato', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, 'Parzialmente rasato', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, 'Naturale', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `review`
+--
+
+CREATE TABLE `review` (
+  `idreview` int(10) NOT NULL,
+  `idclients` int(10) NOT NULL,
+  `iduser` int(10) NOT NULL,
+  `date` date NOT NULL,
+  `idcomune` int(10) NOT NULL,
+  `appearance` int(1) NOT NULL,
+  `services` int(1) NOT NULL,
+  `photo` varchar(50) NOT NULL,
+  `prices` int(4) NOT NULL,
+  `age` int(2) NOT NULL,
+  `shot` int(1) NOT NULL,
+  `duration` int(3) NOT NULL,
+  `breast` varchar(50) NOT NULL,
+  `location` varchar(50) NOT NULL,
+  `review` text NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -16585,14 +17018,94 @@ END
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `weight`
+--
+
+CREATE TABLE `weight` (
+  `id` int(10) NOT NULL,
+  `id_weight` int(10) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL,
+  `lang` char(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dump dei dati per la tabella `weight`
+--
+
+INSERT INTO `weight` (`id`, `id_weight`, `name`, `creationdate`, `last_modify`, `user`, `lang`) VALUES
+(1, 1, '<50', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(2, 2, '50-60', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(3, 3, '60-70', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT'),
+(4, 4, '>70', '2018-03-16 00:00:00', '2018-03-16 00:00:00', 1, 'IT');
+
 --
 -- Indici per le tabelle scaricate
 --
 
 --
+-- Indici per le tabelle `advertiser`
+--
+ALTER TABLE `advertiser`
+  ADD PRIMARY KEY (`idadvertiser`);
+
+--
+-- Indici per le tabelle `advertiser_available`
+--
+ALTER TABLE `advertiser_available`
+  ADD PRIMARY KEY (`idadvlang`);
+
+--
+-- Indici per le tabelle `advertiser_language`
+--
+ALTER TABLE `advertiser_language`
+  ADD PRIMARY KEY (`idadvlang`);
+
+--
+-- Indici per le tabelle `advertiser_performance`
+--
+ALTER TABLE `advertiser_performance`
+  ADD PRIMARY KEY (`idadvertiser_performance`);
+
+--
+-- Indici per le tabelle `age`
+--
+ALTER TABLE `age`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `available`
+--
+ALTER TABLE `available`
+  ADD PRIMARY KEY (`idavailable`);
+
+--
 -- Indici per le tabelle `block`
 --
 ALTER TABLE `block`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `bodysize`
+--
+ALTER TABLE `bodysize`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `breast`
+--
+ALTER TABLE `breast`
+  ADD PRIMARY KEY (`idbreast`);
+
+--
+-- Indici per le tabelle `category`
+--
+ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -16614,10 +17127,58 @@ ALTER TABLE `dictionary`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `ethnicity`
+--
+ALTER TABLE `ethnicity`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `hair`
+--
+ALTER TABLE `hair`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `height`
+--
+ALTER TABLE `height`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `language`
+--
+ALTER TABLE `language`
+  ADD PRIMARY KEY (`idlanguage`);
+
+--
+-- Indici per le tabelle `performances`
+--
+ALTER TABLE `performances`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `price`
+--
+ALTER TABLE `price`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `province`
 --
 ALTER TABLE `province`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `pubis`
+--
+ALTER TABLE `pubis`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`idreview`);
 
 --
 -- Indici per le tabelle `state`
@@ -16650,14 +17211,74 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `weight`
+--
+ALTER TABLE `weight`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `advertiser`
+--
+ALTER TABLE `advertiser`
+  MODIFY `idadvertiser` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `advertiser_available`
+--
+ALTER TABLE `advertiser_available`
+  MODIFY `idadvlang` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `advertiser_language`
+--
+ALTER TABLE `advertiser_language`
+  MODIFY `idadvlang` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `advertiser_performance`
+--
+ALTER TABLE `advertiser_performance`
+  MODIFY `idadvertiser_performance` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `age`
+--
+ALTER TABLE `age`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT per la tabella `available`
+--
+ALTER TABLE `available`
+  MODIFY `idavailable` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `block`
 --
 ALTER TABLE `block`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7805;
+
+--
+-- AUTO_INCREMENT per la tabella `bodysize`
+--
+ALTER TABLE `bodysize`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT per la tabella `breast`
+--
+ALTER TABLE `breast`
+  MODIFY `idbreast` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT per la tabella `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `city`
@@ -16678,10 +17299,58 @@ ALTER TABLE `dictionary`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT per la tabella `ethnicity`
+--
+ALTER TABLE `ethnicity`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT per la tabella `hair`
+--
+ALTER TABLE `hair`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT per la tabella `height`
+--
+ALTER TABLE `height`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT per la tabella `language`
+--
+ALTER TABLE `language`
+  MODIFY `idlanguage` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT per la tabella `performances`
+--
+ALTER TABLE `performances`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT per la tabella `price`
+--
+ALTER TABLE `price`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT per la tabella `province`
 --
 ALTER TABLE `province`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+
+--
+-- AUTO_INCREMENT per la tabella `pubis`
+--
+ALTER TABLE `pubis`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT per la tabella `review`
+--
+ALTER TABLE `review`
+  MODIFY `idreview` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `state`
@@ -16712,6 +17381,12 @@ ALTER TABLE `sys_script_ref_page`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `weight`
+--
+ALTER TABLE `weight`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
