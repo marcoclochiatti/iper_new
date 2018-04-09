@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 20, 2018 alle 16:35
+-- Creato il: Apr 09, 2018 alle 16:17
 -- Versione del server: 10.1.21-MariaDB
 -- Versione PHP: 5.6.30
 
@@ -21,6 +21,99 @@ SET time_zone = "+00:00";
 --
 -- Database: `iper`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `ad`
+--
+
+CREATE TABLE `ad` (
+  `idad` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `text` text NOT NULL,
+  `publish` tinyint(1) NOT NULL,
+  `idtype` int(10) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `adcategory`
+--
+
+CREATE TABLE `adcategory` (
+  `idadcategory` int(10) NOT NULL,
+  `idcategory` int(10) NOT NULL,
+  `idad` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `adphoto`
+--
+
+CREATE TABLE `adphoto` (
+  `idadphoto` int(10) NOT NULL,
+  `idad` int(10) NOT NULL,
+  `idphoto` int(10) NOT NULL,
+  `order` int(3) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `adtype`
+--
+
+CREATE TABLE `adtype` (
+  `idtype` int(10) NOT NULL,
+  `text` varchar(30) NOT NULL,
+  `cost` int(3) NOT NULL,
+  `maxphoto` int(3) NOT NULL,
+  `maxcat` int(1) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `adtype`
+--
+
+INSERT INTO `adtype` (`idtype`, `text`, `cost`, `maxphoto`, `maxcat`, `creationdate`, `last_modify`, `user`) VALUES
+(1, 'Free', 0, 3, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+(2, 'Silver', 10, 7, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+(3, 'Gold', 20, 15, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+(4, 'Diamond', 30, 999, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `advalidity`
+--
+
+CREATE TABLE `advalidity` (
+  `idvalidity` int(10) NOT NULL,
+  `idad` int(10) NOT NULL,
+  `datefrom` date NOT NULL,
+  `dateto` date NOT NULL,
+  `idcountry` int(10) NOT NULL,
+  `idstate` int(10) NOT NULL,
+  `idprovince` int(10) NOT NULL,
+  `idcity` int(10) NOT NULL,
+  `idblock` int(10) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -152,8 +245,8 @@ INSERT INTO `available` (`idavailable`, `text`, `creationdate`, `last_modify`) V
 --
 
 CREATE TABLE `block` (
-  `id` int(10) NOT NULL,
-  `id_city` int(10) NOT NULL,
+  `idblock` int(10) NOT NULL,
+  `idcity` int(10) NOT NULL,
   `name` varchar(64) NOT NULL,
   `creationdate` datetime NOT NULL,
   `last_modify` datetime NOT NULL,
@@ -164,7 +257,7 @@ CREATE TABLE `block` (
 -- Dump dei dati per la tabella `block`
 --
 
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1, 3500, 'Monteortone', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2, 2587, 'Crebbio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3, 5407, 'Beffi', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -834,7 +927,7 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (667, 5520, 'Ripattoni', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (668, 1646, 'Villa Fornaci', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (669, 6397, 'Bivio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (670, 3303, 'Antole', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (671, 3303, 'Bes', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (672, 3303, 'Bolzano Di Belluno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -1500,7 +1593,7 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (1332, 6530, 'Serranova', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1333, 5802, 'Castiglione', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1334, 4112, 'Rezzano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1335, 4240, 'Budrione', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1336, 4240, 'Cortile', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1337, 4240, 'Fossoli', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -2159,7 +2252,7 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (1990, 4911, 'Avenale', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1991, 4911, 'Grottaccia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1992, 4911, 'Moscosi', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1993, 4911, 'San Vittore', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1994, 4911, 'Strada', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1995, 4911, 'Torre', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -2818,9 +2911,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (2648, 4516, 'Trespiano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2649, 7152, 'Montesoro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2650, 7152, 'Scarro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(2651, 7153, 'Arzona', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(2652, 7153, 'Pizzinni', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(2651, 7153, 'Arzona', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(2652, 7153, 'Pizzinni', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2653, 4439, 'Cantiere', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2654, 4439, 'Ponticello', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2655, 4439, 'Scorcetoli', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -3480,9 +3573,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (3309, 4486, 'San Baronto', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3310, 2828, 'Monte San Vigilio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3311, 2828, 'Pavicolo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(3312, 5653, 'Madonna Del Carmine', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(3313, 5653, 'Nasuti', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(3312, 5653, 'Madonna Del Carmine', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(3313, 5653, 'Nasuti', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3314, 5653, 'Rizzacorno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3315, 5653, 'Sant\'Amato', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3316, 5653, 'Villa Elce', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -4142,9 +4235,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (3970, 7517, 'Borgo Lupo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3971, 4316, 'Ca\' De\' Fabbri', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3972, 6595, 'Cocumola', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(3973, 6595, 'Specchia Gallone', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(3974, 5296, 'Marina Di Minturno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(3973, 6595, 'Specchia Gallone', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(3974, 5296, 'Marina Di Minturno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3975, 5296, 'Santa Maria Infante', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3976, 5296, 'Scauri', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3977, 5296, 'Tremensuoli', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -4799,9 +4892,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (4626, 4626, 'Raggiolo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4627, 5665, 'Ortona Foro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4628, 5665, 'Ortona Porto', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(4629, 5665, 'Villa Caldari', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(4630, 5665, 'Villa Grande', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(4629, 5665, 'Villa Caldari', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(4630, 5665, 'Villa Grande', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4631, 5665, 'Villa San Leonardo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4632, 5665, 'Villa San Nicola', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4633, 5469, 'Carrito', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -5464,9 +5557,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (5290, 3422, 'Camalo\'', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5291, 3422, 'Santandra\'', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5292, 3728, 'Grions', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(5293, 3728, 'Magredis', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(5294, 3728, 'Primulacco', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(5293, 3728, 'Magredis', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(5294, 3728, 'Primulacco', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5295, 3728, 'Ravosa', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5296, 3728, 'Savorgnano Del Torre', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5297, 2482, 'Casalsigone', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -6125,9 +6218,9 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (5950, 4329, 'Budrie', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5951, 4329, 'Decima', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5952, 4329, 'San Matteo Della Decima', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(5953, 7531, 'Trappeto', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(5954, 3150, 'Pozzo Camacici', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(5953, 7531, 'Trappeto', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(5954, 3150, 'Pozzo Camacici', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5955, 3150, 'Raldon', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5956, 6441, 'Matine', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5957, 7914, 'Is Urigus', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -6783,10 +6876,10 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (6607, 4668, 'Pieve Di Sinalunga', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6608, 4668, 'Rigaiolo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6609, 4668, 'Rigomagno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(6610, 4668, 'Scrofiano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
+(6610, 4668, 'Scrofiano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (6611, 7732, 'Berchidda', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(6612, 7732, 'Capo Comino', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(6612, 7732, 'Capo Comino', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6613, 7732, 'Ena Sa Chitta', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6614, 7732, 'La Caletta', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6615, 7732, 'Mandras', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -7444,10 +7537,10 @@ INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `us
 (7267, 4764, 'Casa Castalda', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7268, 1631, 'San Nicolo\' Di Valfurva', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7269, 1631, 'Santa Caterina', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(7270, 1631, 'Sant\'Antonio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
+(7270, 1631, 'Sant\'Antonio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
+INSERT INTO `block` (`idblock`, `idcity`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (7271, 1400, 'Ganna', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
-(7272, 1400, 'Ghirla', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `block` (`id`, `id_city`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+(7272, 1400, 'Ghirla', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7273, 3049, 'Anghebeni', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7274, 3049, 'Corte', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7275, 3049, 'Raossi', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -8091,8 +8184,8 @@ INSERT INTO `category` (`id`, `id_category`, `name`, `creationdate`, `last_modif
 --
 
 CREATE TABLE `city` (
-  `id` int(10) NOT NULL,
-  `id_province` int(10) NOT NULL,
+  `idcity` int(10) NOT NULL,
+  `idprovince` int(10) NOT NULL,
   `name` varchar(64) NOT NULL,
   `creationdate` datetime NOT NULL,
   `last_modify` datetime NOT NULL,
@@ -8103,7 +8196,7 @@ CREATE TABLE `city` (
 -- Dump dei dati per la tabella `city`
 --
 
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1, 1, 'Aglie', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2, 1, 'Airasca', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3, 1, 'Ala di Stura', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -8805,7 +8898,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (699, 4, 'Santa Vittoria d\'Alba', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (700, 4, 'Santo Stefano Belbo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (701, 4, 'Santo Stefano Roero', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (702, 4, 'Savigliano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (703, 4, 'Scagnello', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (704, 4, 'Scarnafigi', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -9492,7 +9585,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (1385, 10, 'Ranco', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1386, 10, 'Saltrio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1387, 10, 'Samarate', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1388, 10, 'Saronno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1389, 10, 'Sesto Calende', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (1390, 10, 'Solbiate Arno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -10172,7 +10265,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (2064, 15, 'Chiari', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2065, 15, 'Cigole', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2066, 15, 'Cimbergo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (2067, 15, 'Cividate Camuno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2068, 15, 'Coccaglio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2069, 15, 'Collebeato', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -10842,7 +10935,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (2733, 21, 'Agrate Brianza', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2734, 21, 'Aicurzio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2735, 21, 'Albiate', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (2736, 21, 'Arcore', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2737, 21, 'Barlassina', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2738, 21, 'Bellusco', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -11517,7 +11610,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (3407, 27, 'Morgano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3408, 27, 'Moriago della Battaglia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3409, 27, 'Motta di Livenza', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (3410, 27, 'Nervesa della Battaglia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3411, 27, 'Oderzo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3412, 27, 'Ormelle', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -12192,7 +12285,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (4081, 38, 'Castelnuovo Magra', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4082, 38, 'Deiva Marina', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4083, 38, 'Follo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (4084, 38, 'Framura', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4085, 38, 'La Spezia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4086, 38, 'Lerici', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -12858,7 +12951,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (4746, 58, 'Perugia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4747, 58, 'Piegaro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4748, 58, 'Pietralunga', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (4749, 58, 'Poggiodomo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4750, 58, 'Preci', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (4751, 58, 'San Giustino', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -13532,7 +13625,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (5419, 70, 'Cagnano Amiterno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5420, 70, 'Calascio', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5421, 70, 'Campo di Giove', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (5422, 70, 'Campotosto', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5423, 70, 'Canistro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (5424, 70, 'Cansano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -14197,7 +14290,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (6083, 78, 'Pimonte', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6084, 78, 'Poggiomarino', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6085, 78, 'Pollena Trocchia', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (6086, 78, 'Pomigliano d\'Arco', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6087, 78, 'Pompei', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6088, 78, 'Portici', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -14868,7 +14961,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (6753, 87, 'Viggiano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6754, 87, 'Ginestra', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6755, 87, 'Paterno', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (6756, 88, 'Accettura', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6757, 88, 'Aliano', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (6758, 88, 'Bernalda', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -15542,7 +15635,7 @@ INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, 
 (7426, 97, 'Licata', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7427, 97, 'Lucca Sicula', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7428, 97, 'Menfi', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1);
-INSERT INTO `city` (`id`, `id_province`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `city` (`idcity`, `idprovince`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (7429, 97, 'Montallegro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7430, 97, 'Montevago', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (7431, 97, 'Naro', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -16098,7 +16191,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `country` (
-  `id` int(10) NOT NULL,
+  `idcountry` int(10) NOT NULL,
   `iso` varchar(2) NOT NULL,
   `name` varchar(64) NOT NULL,
   `creationdate` datetime NOT NULL,
@@ -16111,7 +16204,7 @@ CREATE TABLE `country` (
 -- Dump dei dati per la tabella `country`
 --
 
-INSERT INTO `country` (`id`, `iso`, `name`, `creationdate`, `last_modify`, `user`, `option1`) VALUES
+INSERT INTO `country` (`idcountry`, `iso`, `name`, `creationdate`, `last_modify`, `user`, `option1`) VALUES
 (1, 'AF', 'Afghanistan', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
 (2, 'AL', 'Albania', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
 (3, 'DZ', 'Algeria', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
@@ -16564,6 +16657,21 @@ INSERT INTO `performances` (`id`, `id_performances`, `name`, `creationdate`, `la
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `photo`
+--
+
+CREATE TABLE `photo` (
+  `idphoto` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `price`
 --
 
@@ -16596,8 +16704,8 @@ INSERT INTO `price` (`id`, `id_price`, `name`, `creationdate`, `last_modify`, `u
 --
 
 CREATE TABLE `province` (
-  `id` int(10) NOT NULL,
-  `id_state` int(10) NOT NULL,
+  `idprovince` int(10) NOT NULL,
+  `idstate` int(10) NOT NULL,
   `targa` varchar(2) NOT NULL,
   `name` varchar(64) NOT NULL,
   `creationdate` datetime NOT NULL,
@@ -16609,7 +16717,7 @@ CREATE TABLE `province` (
 -- Dump dei dati per la tabella `province`
 --
 
-INSERT INTO `province` (`id`, `id_state`, `targa`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `province` (`idprovince`, `idstate`, `targa`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1, 12, 'TO', 'Torino', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2, 12, 'VC', 'Vercelli', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3, 12, 'NO', 'Novara', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -16793,8 +16901,8 @@ CREATE TABLE `review` (
 --
 
 CREATE TABLE `state` (
-  `id` int(10) NOT NULL,
-  `id_country` int(10) NOT NULL,
+  `idstate` int(10) NOT NULL,
+  `idcountry` int(10) NOT NULL,
   `name` varchar(64) NOT NULL,
   `creationdate` datetime NOT NULL,
   `last_modify` datetime NOT NULL,
@@ -16805,7 +16913,7 @@ CREATE TABLE `state` (
 -- Dump dei dati per la tabella `state`
 --
 
-INSERT INTO `state` (`id`, `id_country`, `name`, `creationdate`, `last_modify`, `user`) VALUES
+INSERT INTO `state` (`idstate`, `idcountry`, `name`, `creationdate`, `last_modify`, `user`) VALUES
 (1, 113, 'Abruzzo', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (2, 113, 'Basilicata', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
 (3, 113, 'Calabria', '2018-02-06 10:00:00', '2018-02-06 10:00:00', 1),
@@ -16843,6 +16951,23 @@ SET new.last_modify :=now();
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `subscription`
+--
+
+CREATE TABLE `subscription` (
+  `idsubscription` int(10) NOT NULL,
+  `idadvertiser` int(10) NOT NULL,
+  `idtype` int(10) NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `last_modify` datetime NOT NULL,
+  `user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -17049,6 +17174,36 @@ INSERT INTO `weight` (`id`, `id_weight`, `name`, `creationdate`, `last_modify`, 
 --
 
 --
+-- Indici per le tabelle `ad`
+--
+ALTER TABLE `ad`
+  ADD PRIMARY KEY (`idad`);
+
+--
+-- Indici per le tabelle `adcategory`
+--
+ALTER TABLE `adcategory`
+  ADD PRIMARY KEY (`idadcategory`);
+
+--
+-- Indici per le tabelle `adphoto`
+--
+ALTER TABLE `adphoto`
+  ADD PRIMARY KEY (`idadphoto`);
+
+--
+-- Indici per le tabelle `adtype`
+--
+ALTER TABLE `adtype`
+  ADD PRIMARY KEY (`idtype`);
+
+--
+-- Indici per le tabelle `advalidity`
+--
+ALTER TABLE `advalidity`
+  ADD PRIMARY KEY (`idvalidity`);
+
+--
 -- Indici per le tabelle `advertiser`
 --
 ALTER TABLE `advertiser`
@@ -17088,7 +17243,7 @@ ALTER TABLE `available`
 -- Indici per le tabelle `block`
 --
 ALTER TABLE `block`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idblock`);
 
 --
 -- Indici per le tabelle `bodysize`
@@ -17112,13 +17267,13 @@ ALTER TABLE `category`
 -- Indici per le tabelle `city`
 --
 ALTER TABLE `city`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idcity`);
 
 --
 -- Indici per le tabelle `country`
 --
 ALTER TABLE `country`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idcountry`);
 
 --
 -- Indici per le tabelle `dictionary`
@@ -17157,6 +17312,12 @@ ALTER TABLE `performances`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `photo`
+--
+ALTER TABLE `photo`
+  ADD PRIMARY KEY (`idphoto`);
+
+--
 -- Indici per le tabelle `price`
 --
 ALTER TABLE `price`
@@ -17166,7 +17327,7 @@ ALTER TABLE `price`
 -- Indici per le tabelle `province`
 --
 ALTER TABLE `province`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idprovince`);
 
 --
 -- Indici per le tabelle `pubis`
@@ -17184,7 +17345,13 @@ ALTER TABLE `review`
 -- Indici per le tabelle `state`
 --
 ALTER TABLE `state`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idstate`);
+
+--
+-- Indici per le tabelle `subscription`
+--
+ALTER TABLE `subscription`
+  ADD PRIMARY KEY (`idsubscription`);
 
 --
 -- Indici per le tabelle `sys_param_ref_page`
@@ -17219,6 +17386,36 @@ ALTER TABLE `weight`
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `ad`
+--
+ALTER TABLE `ad`
+  MODIFY `idad` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `adcategory`
+--
+ALTER TABLE `adcategory`
+  MODIFY `idadcategory` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `adphoto`
+--
+ALTER TABLE `adphoto`
+  MODIFY `idadphoto` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `adtype`
+--
+ALTER TABLE `adtype`
+  MODIFY `idtype` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT per la tabella `advalidity`
+--
+ALTER TABLE `advalidity`
+  MODIFY `idvalidity` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `advertiser`
@@ -17260,7 +17457,7 @@ ALTER TABLE `available`
 -- AUTO_INCREMENT per la tabella `block`
 --
 ALTER TABLE `block`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7805;
+  MODIFY `idblock` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7805;
 
 --
 -- AUTO_INCREMENT per la tabella `bodysize`
@@ -17284,13 +17481,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT per la tabella `city`
 --
 ALTER TABLE `city`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7959;
+  MODIFY `idcity` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7959;
 
 --
 -- AUTO_INCREMENT per la tabella `country`
 --
 ALTER TABLE `country`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `idcountry` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT per la tabella `dictionary`
@@ -17329,6 +17526,12 @@ ALTER TABLE `performances`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT per la tabella `photo`
+--
+ALTER TABLE `photo`
+  MODIFY `idphoto` int(10) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `price`
 --
 ALTER TABLE `price`
@@ -17338,7 +17541,7 @@ ALTER TABLE `price`
 -- AUTO_INCREMENT per la tabella `province`
 --
 ALTER TABLE `province`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `idprovince` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT per la tabella `pubis`
@@ -17356,7 +17559,13 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT per la tabella `state`
 --
 ALTER TABLE `state`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idstate` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT per la tabella `subscription`
+--
+ALTER TABLE `subscription`
+  MODIFY `idsubscription` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `sys_param_ref_page`
